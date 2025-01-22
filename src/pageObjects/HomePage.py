@@ -12,6 +12,10 @@ class HomePage(BasePage):
     def click_value_button(self):
         super().click_element(HomePageLocators.VALUE_BUTTON)
 
-    def validcar_errormessage(self):
+    def is_error_message_present(self):
+
         return super().is_element_present(HomePageLocators.ERROR_MESSAGE)
 
+
+    def validate_car_error_message_text(self):
+        return super().get_element_text(HomePageLocators.ERROR_MESSAGE)

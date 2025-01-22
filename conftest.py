@@ -1,8 +1,10 @@
+import os
+from pathlib import Path
 import pytest
 import re
-import os.path
 from src.utils.DriverManager import DriverManager
 from src.utils.FileUtils import FileUtils
+from src.utils.TestData import TestData
 
 
 def pytest_addoption(parser):
@@ -13,24 +15,32 @@ def pytest_addoption(parser):
     )
 
 
+def get_project_path():
+    current_file = Path(__file__).resolve()
+    return str(current_file.parent)
+
+
+def input_file():
+    return get_project_path() + os.sep + "src" + os.sep + "resources" + os.sep + TestData.INPUT_FILE
+
+@pytest.fixture()
+def output_file():
+    return get_project_path() + os.sep + "src" + os.sep + "resources" + os.sep + TestData.OUTPUT_FILE
+
+
+def get_config_file():
+    return get_project_path() + os.sep + TestData.CONFIG_FILE
+
+
 @pytest.fixture()
 def setup_teardown(request, browser_name):
     driver = DriverManager.get_driver(browser_name)
     driver.maximize_window()
-    driver.get("http://motorway.com/")
+    driver.get(TestData.BASE_URL)
     driver.implicitly_wait(10)
     request.cls.driver = driver
     yield driver
     driver.quit()
-
-
-def input_file():
-    return "C:\\Users\\karthik\\Downloads\\car_input V4.txt"
-
-
-@pytest.fixture()
-def output_file():
-    return "C:\\Users\\karthik\\Downloads\\car_output V4.txt"
 
 
 def reg_vehicles():
@@ -60,14 +70,14 @@ def output_data(output_file):
             vehicle_detail = lines.split(",")
             vehicle_details.append(
                 {"VARIANT_REG": vehicle_detail[0], "MAKE": vehicle_detail[1], "MODEL": vehicle_detail[2],
-                 "YEAR": vehicle_detail[3].split("\n")[0]});
+                 "YEAR": vehicle_detail[3].split("\n")[0]})
         index = index + 1
     return vehicle_details
 
 
-def convert_inp_reg_to_output_reg(regno):
+def convert_inp_reg_to_output_reg(reg_no):
     vr_no = None
-    if " " in regno:
-        vr_no = regno.replace(" ", "")
+    if " " in reg_no:
+        vr_no = reg_no.replace(" ", "")
 
     return vr_no
