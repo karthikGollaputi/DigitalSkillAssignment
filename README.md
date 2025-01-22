@@ -41,6 +41,5 @@ Execution:-
 
  the browser  specifed as part of the command, the tests get executed in that
 browser
-
-// As the output texts doesn't have the Proper 
+ 
  

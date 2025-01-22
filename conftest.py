@@ -69,8 +69,8 @@ def output_data(output_file):
         else:
             vehicle_detail = lines.split(",")
             vehicle_details.append(
-                {"VARIANT_REG": vehicle_detail[0], "MAKE": vehicle_detail[1], "MODEL": vehicle_detail[2],
-                 "YEAR": vehicle_detail[3].split("\n")[0]})
+                {"VARIANT_REG": vehicle_detail[0],"MODEL": vehicle_detail[1],
+                 "YEAR": vehicle_detail[2].split("\n")[0]})
         index = index + 1
     return vehicle_details
 
